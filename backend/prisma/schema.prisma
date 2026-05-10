@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  name           String
+  email          String    @unique
+  passwordHash   String
+  preferences    Json?
+  createdAt      DateTime  @default(now())
+  trips          Trip[]
+}
+
+model Trip {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  name           String
+  description    String?
+  coverPhoto     String?
+  startDate      DateTime
+  endDate        DateTime
+  isPublic       Boolean   @default(false)
+  shareToken     String?   @unique
+  createdAt      DateTime  @default(now())
+  
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stops          TripStop[]
+}
+
+model City {
+  id             Int       @id @default(autoincrement())
+  name           String
+  country        String
+  costIndex      Int       @default(3) // 1-5 scale
+  popularity     Int       @default(3)
+  imageUrl       String?
+  
+  activities     Activity[]
+  tripStops      TripStop[]
+}
+
+model Activity {
+  id             Int       @id @default(autoincrement())
+  cityId         Int
+  name           String
+  description    String?
+  category       String
+  estimatedCost  Float
+  durationMins   Int
+  
+  city           City      @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  tripActivities TripActivity[]
+}
+
+model TripStop {
+  id             Int       @id @default(autoincrement())
+  tripId         Int
+  cityId         Int
+  arrivalDate    DateTime
+  departureDate  DateTime
+  stopOrder      Int
+  
+  trip           Trip      @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  city           City      @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  activities     TripActivity[]
+}
+
+model TripActivity {
+  id             Int       @id @default(autoincrement())
+  tripStopId     Int
+  activityId     Int
+  scheduledTime  DateTime?
+  
+  tripStop       TripStop  @relation(fields: [tripStopId], references: [id], onDelete: Cascade)
+  activity       Activity  @relation(fields: [activityId], references: [id], onDelete: Cascade)
+}
