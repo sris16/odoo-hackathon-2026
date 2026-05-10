@@ -32,7 +32,7 @@ export const Trips = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in-up">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">My Trips</h1>
@@ -57,15 +57,15 @@ export const Trips = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center flex flex-col items-center justify-center">
-          <div className="bg-brand-50 w-16 h-16 rounded-full flex items-center justify-center text-brand-600 mb-4">
-            <Compass size={32} />
+        <div className="glass rounded-3xl border-dashed border-2 border-brand-200 p-12 text-center flex flex-col items-center justify-center">
+          <div className="bg-brand-50 w-20 h-20 rounded-full flex items-center justify-center text-brand-600 mb-6 group-hover:scale-110 transition-transform">
+            <Compass size={40} className="animate-pulse-slow" />
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">No trips planned yet</h3>
-          <p className="text-gray-500 mb-6 max-w-md">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">No trips planned yet</h3>
+          <p className="text-gray-500 mb-8 max-w-md">
             Start your next adventure by creating a new trip. You can add stops, activities, and track your budget.
           </p>
-          <Button onClick={() => setIsModalOpen(true)}>Create Your First Trip</Button>
+          <Button onClick={() => setIsModalOpen(true)} className="hover:shadow-lg hover:-translate-y-0.5 transition-all">Create Your First Trip</Button>
         </div>
       )}
 

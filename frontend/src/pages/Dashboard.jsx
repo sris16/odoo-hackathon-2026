@@ -35,8 +35,8 @@ export const Dashboard = () => {
   }, []);
 
   const StatCard = ({ icon: Icon, title, value, colorClass }) => (
-    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
-      <div className={`p-4 rounded-xl ${colorClass}`}>
+    <div className="glass p-6 rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex items-center gap-4 group">
+      <div className={`p-4 rounded-xl ${colorClass} group-hover:scale-110 transition-transform duration-300`}>
         <Icon size={24} />
       </div>
       <div>
@@ -47,15 +47,18 @@ export const Dashboard = () => {
   );
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in-up">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-brand-600 to-brand-800 rounded-3xl p-8 sm:p-10 text-white shadow-md relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+      <div className="bg-gradient-to-br from-brand-600 via-brand-500 to-brand-800 rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
+        {/* Animated Background Blobs */}
+        <div className="absolute top-0 right-0 w-72 h-72 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 animate-blob"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-300/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 animate-blob animation-delay-2000"></div>
+        
         <div className="relative z-10">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-3">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight drop-shadow-sm">
             Welcome back, {user?.name?.split(' ')[0]}! 👋
           </h1>
-          <p className="text-brand-100 max-w-xl text-lg">
+          <p className="text-brand-50 max-w-xl text-lg font-medium drop-shadow-sm">
             Ready for your next adventure? Let's plan something extraordinary today.
           </p>
         </div>
@@ -105,10 +108,14 @@ export const Dashboard = () => {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center">
-            <p className="text-gray-500 mb-4">You haven't planned any trips yet.</p>
-            <Link to="/trips" className="inline-block bg-brand-500 text-white px-6 py-2 rounded-xl font-medium hover:bg-brand-600 transition-colors">
-              Create a Trip
+          <div className="glass rounded-3xl p-12 text-center border-dashed border-2 border-brand-200">
+            <div className="bg-brand-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Map size={32} className="text-brand-500" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">No trips planned yet</h3>
+            <p className="text-gray-500 mb-8 max-w-md mx-auto">Your itinerary is a blank canvas. Start dreaming and build your first unforgettable journey.</p>
+            <Link to="/trips" className="inline-flex items-center gap-2 bg-brand-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-brand-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+              Create a Trip <ArrowRight size={18} />
             </Link>
           </div>
         )}

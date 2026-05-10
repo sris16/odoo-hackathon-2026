@@ -245,10 +245,13 @@ export const ItineraryBuilder = () => {
                       variant="secondary" 
                       onClick={handleAutoGenerate} 
                       disabled={isGenerating}
-                      className="flex items-center gap-2 bg-purple-50 text-purple-700 hover:bg-purple-100 border-purple-200"
+                      className="relative overflow-hidden group bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white border-0 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 px-6"
                     >
-                      {isGenerating ? <div className="animate-spin w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full"></div> : <Star size={16} />}
-                      Magic Generate
+                      <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      <div className="relative flex items-center gap-2 z-10">
+                        {isGenerating ? <div className="animate-spin w-4 h-4 border-2 border-white/50 border-t-white rounded-full"></div> : <Star size={16} className="text-yellow-200 animate-pulse" />}
+                        <span className="font-bold">Magic Generate</span>
+                      </div>
                     </Button>
                     <Button onClick={() => setIsAddActivityOpen(true)} className="flex items-center gap-2">
                       <Plus size={16} /> Add Custom
@@ -266,24 +269,24 @@ export const ItineraryBuilder = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {selectedStop.activities?.map((item) => (
-                      <div key={item.id} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow group">
+                      <div key={item.id} className="glass border border-white/40 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-default">
                         <div className="flex justify-between items-start mb-3">
-                          <h4 className="font-bold text-gray-900 text-lg">{item.activity.name}</h4>
-                          <span className="bg-brand-50 text-brand-700 text-xs px-2.5 py-1 rounded-full font-medium">
+                          <h4 className="font-bold text-gray-900 text-lg group-hover:text-brand-600 transition-colors">{item.activity.name}</h4>
+                          <span className="bg-brand-50/80 text-brand-700 text-xs px-2.5 py-1 rounded-full font-bold backdrop-blur-sm">
                             {item.activity.category}
                           </span>
                         </div>
                         <p className="text-sm text-gray-500 mb-4 line-clamp-2">
                           {item.activity.description || 'No description available for this activity.'}
                         </p>
-                        <div className="flex items-center gap-4 text-sm text-gray-600 border-t border-gray-100 pt-3">
-                          <div className="flex items-center gap-1.5">
-                            <Clock size={16} className="text-gray-400" />
-                            {item.activity.durationMins} mins
+                        <div className="flex items-center gap-4 text-sm text-gray-600 border-t border-gray-100/50 pt-3">
+                          <div className="flex items-center gap-1.5 bg-gray-50/50 px-2 py-1 rounded-md">
+                            <Clock size={14} className="text-gray-400" />
+                            <span className="font-medium">{item.activity.durationMins} min</span>
                           </div>
-                          <div className="flex items-center gap-1.5">
-                            <Tag size={16} className="text-gray-400" />
-                            {formatCurrency(item.activity.estimatedCost)}
+                          <div className="flex items-center gap-1.5 bg-green-50/50 px-2 py-1 rounded-md">
+                            <Tag size={14} className="text-green-500" />
+                            <span className="font-medium text-green-700">{formatCurrency(item.activity.estimatedCost)}</span>
                           </div>
                         </div>
                       </div>

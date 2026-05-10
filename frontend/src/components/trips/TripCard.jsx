@@ -9,7 +9,7 @@ export const TripCard = ({ trip }) => {
   return (
     <Link 
       to={`/trips/${trip.id}`}
-      className="group flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden"
+      className="group flex flex-col glass border-white/40 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1.5 hover:border-brand-300 transition-all duration-300 overflow-hidden"
     >
       <div className="relative h-48 bg-gray-200 overflow-hidden">
         {trip.coverPhoto ? (

@@ -106,15 +106,16 @@ export const Explore = () => {
   );
 
   return (
-    <div className="space-y-12 pb-12">
+    <div className="space-y-12 pb-12 animate-fade-in-up">
       {/* Hero Header */}
-      <div className="flex flex-col justify-center items-start gap-4 bg-brand-600 rounded-3xl p-10 text-white relative overflow-hidden">
+      <div className="flex flex-col justify-center items-start gap-4 bg-gradient-to-br from-brand-600 via-brand-500 to-brand-700 rounded-3xl p-10 text-white relative overflow-hidden shadow-xl">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 animate-blob"></div>
         <div className="relative z-10 max-w-2xl">
-          <h1 className="text-4xl font-bold mb-4">Discover Your Next Adventure</h1>
-          <p className="text-brand-100 text-lg">Explore curated lists of global destinations based on what's trending and what fits your budget.</p>
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight drop-shadow-sm">Discover Your Next Adventure</h1>
+          <p className="text-brand-50 text-lg font-medium drop-shadow-sm">Explore curated lists of global destinations based on what's trending and what fits your budget.</p>
         </div>
         <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-20 pointer-events-none hidden md:block">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="animate-pulse-slow">
             <path fill="#ffffff" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,81.6,-46.3C91.4,-33.5,98.1,-18,97.7,-2.6C97.3,12.8,89.9,28.1,80.1,41.4C70.3,54.7,58.2,66.1,44.4,74.2C30.6,82.3,15.3,87.1,-0.1,87.2C-15.5,87.3,-31,82.7,-44.5,74.4C-58,66.1,-69.5,54.1,-78.4,40.1C-87.3,26.1,-93.6,10.1,-94.1,-6.1C-94.6,-22.3,-89.3,-38.7,-79.8,-52.1C-70.3,-65.5,-56.6,-75.9,-41.8,-82.7C-27,-89.5,-13.5,-92.7,0.7,-93.7C14.9,-94.7,29.8,-93.5,44.7,-76.4Z" transform="translate(100 100)" />
           </svg>
         </div>
@@ -154,8 +155,8 @@ export const Explore = () => {
 
       {/* City Details Modal */}
       {selectedCity && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col md:flex-row">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-md animate-fade-in-up" style={{ animationDuration: '0.3s' }}>
+          <div className="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col md:flex-row border border-white/20">
             
             {/* Left Side: Image & City Info */}
             <div className="w-full md:w-1/2 relative bg-gray-100">
