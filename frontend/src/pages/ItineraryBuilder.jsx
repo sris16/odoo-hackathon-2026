@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { 
-  ArrowLeft, MapPin, Calendar, Clock, Plus, Trash2, Tag, DollarSign, Activity 
+  ArrowLeft, MapPin, Calendar, Clock, Plus, Trash2, Tag, DollarSign, Activity, Star 
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
@@ -19,6 +19,7 @@ export const ItineraryBuilder = () => {
   const [selectedStop, setSelectedStop] = useState(null);
   const [isAddStopOpen, setIsAddStopOpen] = useState(false);
   const [isAddActivityOpen, setIsAddActivityOpen] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   // Forms
   const [stopForm, setStopForm] = useState({ cityId: '', arrivalDate: '', departureDate: '' });
@@ -93,6 +94,19 @@ export const ItineraryBuilder = () => {
       fetchTripData(); // Refresh trip data to show new activity
     } catch (error) {
       alert(error.response?.data?.message || 'Failed to add activity. Note: ID might not match DB seed.');
+    }
+  };
+
+  const handleAutoGenerate = async () => {
+    if (!window.confirm("This will clear existing activities and generate a smart itinerary. Proceed?")) return;
+    setIsGenerating(true);
+    try {
+      await api.post(`/trips/${id}/auto-generate`);
+      await fetchTripData();
+    } catch (error) {
+      alert('Failed to auto-generate itinerary.');
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -207,7 +221,7 @@ export const ItineraryBuilder = () => {
               {/* Selected Stop Header */}
               <div className="h-48 relative bg-gray-900">
                 <img 
-                  src={selectedStop.city.imageUrl || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800'} 
+                  src={selectedStop.city.imageUrl ? (selectedStop.city.imageUrl.includes('?') ? selectedStop.city.imageUrl : `${selectedStop.city.imageUrl}?auto=format&fit=crop&w=1200&q=80`) : 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80'} 
                   alt={selectedStop.city.name} 
                   className="w-full h-full object-cover opacity-60"
                 />
@@ -222,13 +236,24 @@ export const ItineraryBuilder = () => {
 
               {/* Activities Content */}
               <div className="p-8 max-w-4xl mx-auto">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
                   <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
                     <Activity className="text-brand-500" /> Planned Activities
                   </h3>
-                  <Button onClick={() => setIsAddActivityOpen(true)} className="flex items-center gap-2">
-                    <Plus size={16} /> Add Activity
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="secondary" 
+                      onClick={handleAutoGenerate} 
+                      disabled={isGenerating}
+                      className="flex items-center gap-2 bg-purple-50 text-purple-700 hover:bg-purple-100 border-purple-200"
+                    >
+                      {isGenerating ? <div className="animate-spin w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full"></div> : <Star size={16} />}
+                      Magic Generate
+                    </Button>
+                    <Button onClick={() => setIsAddActivityOpen(true)} className="flex items-center gap-2">
+                      <Plus size={16} /> Add Custom
+                    </Button>
+                  </div>
                 </div>
 
                 {selectedStop.activities?.length === 0 ? (

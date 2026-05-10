@@ -76,6 +76,20 @@ export const Budget = () => {
     ],
   };
 
+  const barData = {
+    labels: budget.cityBreakdown?.map(c => c.city) || [],
+    datasets: [
+      {
+        label: 'Cost per City ($)',
+        data: budget.cityBreakdown?.map(c => c.cost) || [],
+        backgroundColor: 'rgba(99, 102, 241, 0.6)',
+        borderColor: 'rgba(99, 102, 241, 1)',
+        borderWidth: 1,
+        borderRadius: 8,
+      }
+    ]
+  };
+
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       <div className="flex items-center gap-3">
@@ -111,17 +125,43 @@ export const Budget = () => {
           </div>
         </div>
 
-        <div className="md:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-gray-100 flex items-center justify-center min-h-[350px]">
-          <div className="w-full max-w-sm">
-            <Pie 
-              data={pieData} 
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: { position: 'bottom' }
-                }
-              }} 
-            />
+        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col items-center justify-center min-h-[350px]">
+            <h3 className="text-lg font-bold text-gray-800 mb-4 w-full text-left">Category Breakdown</h3>
+            <div className="w-full max-w-sm">
+              <Pie 
+                data={pieData} 
+                options={{
+                  responsive: true,
+                  plugins: {
+                    legend: { position: 'bottom' }
+                  }
+                }} 
+              />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col items-center justify-center min-h-[350px]">
+            <h3 className="text-lg font-bold text-gray-800 mb-4 w-full text-left">Cost by Destination</h3>
+            <div className="w-full h-full flex items-center justify-center">
+              {budget.cityBreakdown && budget.cityBreakdown.length > 0 ? (
+                <Bar 
+                  data={barData}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: { display: false }
+                    },
+                    scales: {
+                      y: { beginAtZero: true }
+                    }
+                  }}
+                />
+              ) : (
+                <p className="text-gray-400">No destination data yet.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
